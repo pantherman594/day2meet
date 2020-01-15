@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { InstanceType } from 'typegoose';
+import { DocumentType } from 'typegoose';
 import _ from 'lodash';
 
 import Event, { Event as IEvent } from '../models/Event';
@@ -40,7 +40,7 @@ const getEventFromUrl = async (req: EventRequest, res: express.Response, next: e
     if (!eventId) throw new EventNotFoundError();
 
     await connectDB();
-    req.reqEvent = (await Event.findById(eventId).exec()) as InstanceType<IEvent>;
+    req.reqEvent = (await Event.findById(eventId).exec()) as DocumentType<IEvent>;
     if (!req.reqEvent) throw new EventNotFoundError();
 
     next();
@@ -50,7 +50,7 @@ const getEventFromUrl = async (req: EventRequest, res: express.Response, next: e
 };
 
 interface EventRequest extends express.Request {
-  reqEvent?: InstanceType<IEvent>
+  reqEvent?: DocumentType<IEvent>
   body: any;
 }
 
